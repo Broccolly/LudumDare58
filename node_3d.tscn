@@ -1,3 +1,7 @@
-[gd_scene format=3 uid="uid://cppac1fhj0e10"]
+[gd_scene load_steps=2 format=3 uid="uid://cppac1fhj0e10"]
+
+[ext_resource type="PackedScene" uid="uid://ds6btqgl2ct0g" path="res://Assets/Models/babbit1.glb" id="1_a202f"]
 
 [node name="Node3D" type="Node3D"]
+
+[node name="babbit1" parent="." instance=ExtResource("1_a202f")]
