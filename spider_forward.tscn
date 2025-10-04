@@ -1,6 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://dgxam5g36bfmf"]
+[gd_scene load_steps=7 format=3 uid="uid://dgxam5g36bfmf"]
 
 [ext_resource type="PackedScene" uid="uid://br7medb1bn5bl" path="res://Assets/Models/Spider/spider_forward.glb" id="1_cf7m0"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cf7m0"]
+albedo_color = Color(0.43215975, 0.029365437, 0.4404636, 1)
 
 [sub_resource type="Animation" id="Animation_555p6"]
 resource_name = "Animation"
@@ -364,6 +367,9 @@ _data = {
 }
 
 [node name="spider_forward" instance=ExtResource("1_cf7m0")]
+
+[node name="Sphere" parent="." index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_cf7m0")
 
 [node name="Skeleton3D" parent="Armature" index="0"]
 bones/1/rotation = Quaternion(-5.7592753e-09, -1.5431936e-09, -0.2588191, 0.9659258)

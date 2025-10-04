@@ -46,7 +46,6 @@ func _physics_process(delta):
 	if (Input.is_action_pressed("right", true)):
 		move_dir.x+=1
 		
-	print("move", move_dir)
 	if (sdf_func):
 		sdf = sdf_func.call(position)
 	if (grad_sdf_func):
@@ -86,7 +85,6 @@ func _physics_process(delta):
 	$spider_forward/AnimationPlayer.speed_scale = velocity.length() * 0.1
 
 func _process(delta):
-	print("move process", move_dir)
 	move_dir = Vector2.ZERO
 
 func add_head_yaw(angle : float):
@@ -110,7 +108,7 @@ func aim(event : InputEventMouseMotion) -> void:
 	
 	motion *= mouse_sensitivity
 	motion *= degrees_per_unit
-	motion.y*=-1
+	motion.x*=-1
 	if (motion.y + current_pitch > max_pitch):
 		motion.y=max_pitch-current_pitch
 	if (motion.y + current_pitch < min_pitch):
