@@ -1,24 +1,37 @@
-[gd_scene load_steps=6 format=3 uid="uid://ckavqb25bdaul"]
+[gd_scene load_steps=8 format=3 uid="uid://ckavqb25bdaul"]
 
-[ext_resource type="Script" uid="uid://bpbieixyxqc8d" path="res://world.gd" id="1_tiovm"]
+[ext_resource type="Script" uid="uid://bpbieixyxqc8d" path="res://ocean.gd" id="1_tiovm"]
 
 [sub_resource type="Gradient" id="Gradient_tiovm"]
-offsets = PackedFloat32Array(0.0012121212, 0.5139394, 0.5939394, 0.6533333, 0.72, 1)
-colors = PackedColorArray(0.7174133, 0.27936137, 0.115947, 1, 0.86107165, 0.8021528, 0.8006252, 1, 0.91500854, 0.87896407, 0.8780296, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.78189653, 0.3408165, 0.16937494, 1)
+colors = PackedColorArray(0.69, 0.414, 0.1725, 1, 1, 0.75200003, 0.38, 1)
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_j38dg"]
-gradient = SubResource("Gradient_tiovm")
-fill_from = Vector2(0.5555556, 0.6282051)
-fill_to = Vector2(0.55982906, 0)
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_j38dg"]
+noise_type = 3
+frequency = 0.022
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_nb2vx"]
+width = 256
+height = 256
+generate_mipmaps = false
+noise = SubResource("FastNoiseLite_j38dg")
+color_ramp = SubResource("Gradient_tiovm")
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_bwgqs"]
+width = 256
+height = 256
+generate_mipmaps = false
+noise = SubResource("FastNoiseLite_j38dg")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f3sb7"]
-albedo_texture = SubResource("GradientTexture2D_j38dg")
-roughness = 0.0
+albedo_texture = SubResource("NoiseTexture2D_nb2vx")
+roughness_texture = SubResource("NoiseTexture2D_bwgqs")
 
 [sub_resource type="TorusMesh" id="TorusMesh_fj7yv"]
 material = SubResource("StandardMaterial3D_f3sb7")
 inner_radius = 50.0
 outer_radius = 120.0
+rings = 32
+ring_segments = 24
 
 [node name="Ocean" type="Node3D"]
 transform = Transform3D(0.9999779, 0, 0.0066496558, 0, 1, 0, -0.0066496558, 0, 0.9999779, 0, 0, 0)

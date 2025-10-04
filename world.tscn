@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://cppac1fhj0e10"]
+[gd_scene load_steps=7 format=3 uid="uid://cppac1fhj0e10"]
 
 [ext_resource type="PackedScene" uid="uid://ckavqb25bdaul" path="res://ocean.tscn" id="1_a202f"]
+[ext_resource type="Script" uid="uid://bddka1juh0itp" path="res://world_manager.gd" id="1_tlwt5"]
 [ext_resource type="PackedScene" uid="uid://oea2uyph2jxn" path="res://character.tscn" id="2_noarx"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_noarx"]
@@ -11,21 +12,42 @@ sky_material = SubResource("PhysicalSkyMaterial_noarx")
 [sub_resource type="Environment" id="Environment_noarx"]
 background_color = Color(0, 0.42635056, 0.96444386, 1)
 sky = SubResource("Sky_a0tk4")
-ambient_light_color = Color(0.37036446, 0.3703645, 0.37036446, 1)
+ambient_light_color = Color(0.12, 0.12, 0.12, 1)
 volumetric_fog_density = 0.0
 volumetric_fog_emission_energy = 0.0
 volumetric_fog_gi_inject = 0.0
 volumetric_fog_anisotropy = -0.9
 
-[node name="Node3D" type="Node3D"]
+[node name="World" type="Node3D"]
+script = ExtResource("1_tlwt5")
 
 [node name="Ocean" parent="." instance=ExtResource("1_a202f")]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.071753226, -0.7608252, 0.6449779, 0.08412217, 0.6489569, 0.7561603, -0.99386865, 0, 0.11056702, 0, 0, 0)
+visible = false
+light_color = Color(0.81577957, 0.7108445, 0.5135729, 1)
+light_energy = 2.022
+shadow_enabled = true
 
 [node name="Character" parent="." instance=ExtResource("2_noarx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 114.27753, 16.875917, 0)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_noarx")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(-0.074585535, -0.7382082, -0.670437, 0.08162145, -0.67457306, 0.733682, -0.99386865, 1.8738952e-08, 0.11056702, -114.77556, 112.62369, 0)
+light_energy = 16.0
+spot_range = 343.4562
+spot_attenuation = 0.52
+spot_angle = 49.66
+spot_angle_attenuation = 1.0717762
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="."]
+transform = Transform3D(0.2979454, 0.54800767, 0.78161126, -0.7599584, 0.6316631, -0.15318371, -0.57766074, -0.5483516, 0.604664, 199.53276, -77.48281, 114.07183)
+light_energy = 16.0
+spot_range = 343.4562
+spot_attenuation = 0.52
+spot_angle = 49.66
+spot_angle_attenuation = 1.0717762

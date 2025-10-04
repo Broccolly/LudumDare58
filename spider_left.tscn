@@ -1,0 +1,40 @@
+[gd_scene load_steps=2 format=3 uid="uid://b3yq063aymwjm"]
+
+[ext_resource type="PackedScene" uid="uid://cby1l07vasflr" path="res://Assets/Models/Spider/spider_left.glb" id="1_1l4sa"]
+
+[node name="spider_left" instance=ExtResource("1_1l4sa")]
+
+[node name="Skeleton3D" parent="Armature" index="0"]
+bones/1/rotation = Quaternion(-5.7592753e-09, -1.5431936e-09, -0.2588191, 0.9659258)
+bones/3/rotation = Quaternion(-0.0005410556, 0.046839222, 0.521232, 0.85212857)
+bones/4/rotation = Quaternion(0.0010142131, -0.0025563166, 0.44023123, 0.8978803)
+bones/5/rotation = Quaternion(-0.05294453, 0.024623314, 0.4093815, 0.9104929)
+bones/7/rotation = Quaternion(-0.39234412, -0.3282076, -0.14514172, 0.8469237)
+bones/8/rotation = Quaternion(-0.35899544, -0.11370058, 0.110196024, 0.9198105)
+bones/9/rotation = Quaternion(-0.58484733, -0.04665269, 0.24462795, 0.7719679)
+bones/11/rotation = Quaternion(-0.32883415, 0.29968038, 0.15396145, 0.8822447)
+bones/12/rotation = Quaternion(-0.30018765, -0.07165807, -0.07387808, 0.94831145)
+bones/13/rotation = Quaternion(-0.51592815, 0.30954793, -0.14285098, 0.7858702)
+bones/15/rotation = Quaternion(-0.007364624, 0.026418986, -0.43474182, 0.90013736)
+bones/16/rotation = Quaternion(-0.0011246657, 0.012511937, -0.31735465, 0.94822377)
+bones/17/rotation = Quaternion(-0.037091017, 0.008253373, -0.5970979, 0.801268)
+
+[node name="Skeleton3D" parent="R_Leg_3" index="0"]
+bones/0/rotation = Quaternion(0.084933534, -0.25511655, -0.57443076, 0.77313083)
+bones/1/rotation = Quaternion(0.008525446, 0.045841843, -0.34195054, 0.9385604)
+bones/2/rotation = Quaternion(-0.10229373, 0.057557307, -0.2992825, 0.94691765)
+
+[node name="Skeleton3D" parent="L_Leg_3" index="0"]
+bones/0/rotation = Quaternion(0.09784533, -0.053606767, -0.36332008, 0.92496)
+bones/1/rotation = Quaternion(0.0025129328, -0.007138902, -0.4132671, 0.9105785)
+bones/2/rotation = Quaternion(0.06291374, -0.0025862725, -0.5288985, 0.84634614)
+
+[node name="Skeleton3D" parent="R_Leg_4" index="0"]
+bones/0/rotation = Quaternion(0.06636539, -0.41748586, -0.28037193, 0.86179626)
+bones/1/rotation = Quaternion(-0.2815551, -0.44601583, -0.39558056, 0.75187266)
+bones/2/rotation = Quaternion(-0.26799893, 0.4936581, -0.38327077, 0.73319966)
+
+[node name="Skeleton3D" parent="L_Leg_4" index="0"]
+bones/0/rotation = Quaternion(0.18689609, -0.3883321, -0.43319544, 0.791587)
+bones/1/rotation = Quaternion(0.040620115, 0.011360415, -0.43327603, 0.90027386)
+bones/2/rotation = Quaternion(0.0069351923, -0.023725, -0.40928656, 0.9120711)
