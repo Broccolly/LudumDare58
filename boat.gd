@@ -22,19 +22,6 @@ func _ready():
 	$spider_forward/AnimationPlayer.play("Animation")
 
 
-func _input(event: InputEvent) -> void:
-	if (event.is_action_pressed("forwards", true)):
-		move_dir.y+=1
-		return
-	if (event.is_action_pressed("backwards", true)):
-		move_dir.y-=1
-		
-	
-	if (event.is_action_pressed("left", true)):
-		move_dir.x-=1
-	if (event.is_action_pressed("right", true)):
-		move_dir.x+=1
-
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
@@ -42,7 +29,6 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("click"):
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		return
-		
 	if event is InputEventMouseMotion:
 		aim(event)
 		return
@@ -50,6 +36,16 @@ func _unhandled_input(event: InputEvent) -> void:
 func _physics_process(delta):
 	var sdf : float
 	var grad_sdf : Vector3
+	
+	if (Input.is_action_pressed("forwards", true)):
+		move_dir.y+=1
+	if (Input.is_action_pressed("backwards", true)):
+		move_dir.y-=1
+	if (Input.is_action_pressed("left", true)):
+		move_dir.x-=1
+	if (Input.is_action_pressed("right", true)):
+		move_dir.x+=1
+		
 	print("move", move_dir)
 	if (sdf_func):
 		sdf = sdf_func.call(position)
@@ -57,9 +53,9 @@ func _physics_process(delta):
 		grad_sdf = grad_sdf_func.call(position)
 	
 	if (sdf > 0):
-		force = -20.0 * grad_sdf * sdf
+		force = -40.0 * grad_sdf * sdf
 	else:
-		force = -50.0 * grad_sdf * sdf
+		force = -100.0 * grad_sdf * sdf
 	
 	if (grad_sdf != Vector3.ZERO):
 		var angle_to_rotate = acos(grad_sdf.normalized().dot(basis.y))
@@ -76,7 +72,7 @@ func _physics_process(delta):
 	target_dir.y =0.0
 	if (target_dir.length() > 0.0):
 		target_dir = target_dir.normalized()
-		force += -200.0 * basis.z
+		force += -120.0 * basis.z
 		var rot_angle = min(10.0 * delta, 1.0) * acos(Vector3.FORWARD.dot(target_dir)) * sign(Vector3.RIGHT.dot(target_dir))
 		var rot_axis = -basis.y
 		if (rot_axis.length() > 0.0):
@@ -90,6 +86,7 @@ func _physics_process(delta):
 	$spider_forward/AnimationPlayer.speed_scale = velocity.length() * 0.1
 
 func _process(delta):
+	print("move process", move_dir)
 	move_dir = Vector2.ZERO
 
 func add_head_yaw(angle : float):
