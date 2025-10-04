@@ -19,6 +19,21 @@ var move_dir= Vector2.ZERO
 
 func _ready():
 	Input.set_use_accumulated_input(false)
+	$spider_forward/AnimationPlayer.play("Animation")
+
+
+func _input(event: InputEvent) -> void:
+	if (event.is_action_pressed("forwards", true)):
+		move_dir.y+=1
+		return
+	if (event.is_action_pressed("backwards", true)):
+		move_dir.y-=1
+		
+	
+	if (event.is_action_pressed("left", true)):
+		move_dir.x-=1
+	if (event.is_action_pressed("right", true)):
+		move_dir.x+=1
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
@@ -31,23 +46,11 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		aim(event)
 		return
-		
-	if (event.is_action_pressed("forwards", true)):
-		move_dir.y+=1
-		return
-	if (event.is_action_pressed("backwards", true)):
-		move_dir.y-=1
-		
-	
-	if (event.is_action_pressed("left", true)):
-		move_dir.x-=1
-	if (event.is_action_pressed("right", true)):
-		move_dir.y+=1
 
 func _physics_process(delta):
 	var sdf : float
 	var grad_sdf : Vector3
-	
+	print("move", move_dir)
 	if (sdf_func):
 		sdf = sdf_func.call(position)
 	if (grad_sdf_func):
@@ -74,7 +77,7 @@ func _physics_process(delta):
 	if (target_dir.length() > 0.0):
 		target_dir = target_dir.normalized()
 		force += -200.0 * basis.z
-		var rot_angle = min(5.0 * delta, 1.0) * acos(Vector3.FORWARD.dot(target_dir)) * sign(Vector3.RIGHT.dot(target_dir))
+		var rot_angle = min(10.0 * delta, 1.0) * acos(Vector3.FORWARD.dot(target_dir)) * sign(Vector3.RIGHT.dot(target_dir))
 		var rot_axis = -basis.y
 		if (rot_axis.length() > 0.0):
 			rotate(rot_axis, rot_angle)
@@ -83,11 +86,11 @@ func _physics_process(delta):
 			head_node.orthonormalize()
 			
 	velocity += force * delta
-	print("v", velocity)
-	print("x", position)
-	#velocity += force * delta
 	move_and_collide(velocity * delta)
-	move_dir = Vector2(0,0)
+	$spider_forward/AnimationPlayer.speed_scale = velocity.length() * 0.1
+
+func _process(delta):
+	move_dir = Vector2.ZERO
 
 func add_head_yaw(angle : float):
 	if (is_zero_approx(angle)):
