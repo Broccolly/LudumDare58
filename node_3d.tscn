@@ -1,7 +1,31 @@
-[gd_scene load_steps=2 format=3 uid="uid://cppac1fhj0e10"]
+[gd_scene load_steps=6 format=3 uid="uid://cppac1fhj0e10"]
 
-[ext_resource type="PackedScene" uid="uid://ds6btqgl2ct0g" path="res://Assets/Models/babbit1.glb" id="1_a202f"]
+[ext_resource type="PackedScene" uid="uid://ckavqb25bdaul" path="res://ocean.tscn" id="1_a202f"]
+[ext_resource type="PackedScene" uid="uid://oea2uyph2jxn" path="res://character.tscn" id="2_noarx"]
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_noarx"]
+
+[sub_resource type="Sky" id="Sky_a0tk4"]
+sky_material = SubResource("PhysicalSkyMaterial_noarx")
+
+[sub_resource type="Environment" id="Environment_noarx"]
+background_color = Color(0, 0.42635056, 0.96444386, 1)
+sky = SubResource("Sky_a0tk4")
+ambient_light_color = Color(0.37036446, 0.3703645, 0.37036446, 1)
+volumetric_fog_density = 0.0
+volumetric_fog_emission_energy = 0.0
+volumetric_fog_gi_inject = 0.0
+volumetric_fog_anisotropy = -0.9
 
 [node name="Node3D" type="Node3D"]
 
-[node name="babbit1" parent="." instance=ExtResource("1_a202f")]
+[node name="Ocean" parent="." instance=ExtResource("1_a202f")]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.071753226, -0.7608252, 0.6449779, 0.08412217, 0.6489569, 0.7561603, -0.99386865, 0, 0.11056702, 0, 0, 0)
+
+[node name="Character" parent="." instance=ExtResource("2_noarx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 114.27753, 16.875917, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_noarx")
