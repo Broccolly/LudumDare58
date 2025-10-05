@@ -4,8 +4,13 @@ func _ready():
 	$Character.sdf_func = $Ocean.global_sdf
 	$Character.grad_sdf_func = $Ocean.global_grad_sdf
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	$HUD.show_message("Go!")
 	for child in get_children():
 		if child is Fly:
 			child.sdf_func = $Ocean.global_sdf
 			child.grad_sdf_func = $Ocean.global_grad_sdf
+
 			
+func game_over():
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	get_tree().change_scene_to_file("res://UItest.tscn")

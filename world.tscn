@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://cppac1fhj0e10"]
+[gd_scene load_steps=9 format=3 uid="uid://cppac1fhj0e10"]
 
 [ext_resource type="PackedScene" uid="uid://ckavqb25bdaul" path="res://ocean.tscn" id="1_a202f"]
 [ext_resource type="Script" uid="uid://bddka1juh0itp" path="res://world_manager.gd" id="1_tlwt5"]
 [ext_resource type="PackedScene" uid="uid://oea2uyph2jxn" path="res://character.tscn" id="2_noarx"]
 [ext_resource type="PackedScene" uid="uid://bdsdm66phq31v" path="res://fly.tscn" id="4_aqk2v"]
+[ext_resource type="Script" uid="uid://d3xgmdujcke3m" path="res://hud.gd" id="5_036b0"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_noarx"]
 
@@ -74,3 +75,61 @@ transform = Transform3D(1, 0, 0, 0, 0.41168928, -0.91132426, 0, 0.91132426, 0.41
 
 [node name="Fly5" parent="." instance=ExtResource("4_aqk2v")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.226791, 100.46414, -108.74448)
+
+[node name="HUD" type="CanvasLayer" parent="."]
+script = ExtResource("5_036b0")
+
+[node name="ScoreLabel" type="Label" parent="HUD"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -225.0
+offset_bottom = 36.0
+grow_horizontal = 0
+size_flags_horizontal = 8
+theme_override_font_sizes/font_size = 26
+text = "1 BILLION POINTS"
+
+[node name="Message" type="Label" parent="HUD"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -500.0
+offset_top = -47.5
+offset_right = 500.0
+offset_bottom = 47.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 33
+text = "Get those flies!
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="MessageTimer" type="Timer" parent="HUD"]
+wait_time = 2.0
+one_shot = true
+
+[node name="ScoreTimer" type="Timer" parent="HUD"]
+autostart = true
+
+[node name="HungerBar" type="ProgressBar" parent="HUD"]
+custom_minimum_size = Vector2(200, 0)
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -100.0
+offset_top = 50.0
+offset_right = 100.0
+offset_bottom = 77.0
+grow_horizontal = 2
+max_value = 5000.0
+step = 1.0
+
+[connection signal="end_game" from="HUD" to="." method="game_over"]
+[connection signal="timeout" from="HUD/MessageTimer" to="HUD" method="_on_message_timer_timeout"]
+[connection signal="timeout" from="HUD/ScoreTimer" to="HUD" method="_on_score_timer_timeout"]
+[connection signal="value_changed" from="HUD/HungerBar" to="HUD" method="_on_hunger_bar_value_changed"]

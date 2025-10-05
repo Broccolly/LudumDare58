@@ -13,6 +13,10 @@ var landing_height : float = 5.0
 var vertical_drag : float = 10.0
 var general_drag : float = 2.0
 
+func _ready():
+	Input.set_use_accumulated_input(false)
+	$fly/AnimationPlayer.play("ArmatureAction")
+
 func _physics_process(delta: float) -> void:
 	var sdf : float
 	var grad_sdf : Vector3
