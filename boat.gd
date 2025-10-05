@@ -65,20 +65,20 @@ func _physics_process(delta):
 	
 	# up/down drag to stop oscillation
 	force += -10.0 * velocity.dot(grad_sdf.normalized()) * grad_sdf.normalized()
-	force += -2.0 * velocity
+	force += -4.0 * velocity
 	#force += 100.0 * basis.z
 	var target_dir = -move_dir.y * head_node.basis.z + move_dir.x * head_node.basis.x
 	target_dir.y =0.0
 	if (target_dir.length() > 0.0):
 		target_dir = target_dir.normalized()
-		force += -120.0 * basis.z
-		var rot_angle = min(10.0 * delta, 1.0) * acos(Vector3.FORWARD.dot(target_dir)) * sign(Vector3.RIGHT.dot(target_dir))
+		var rot_angle = min(20.0 * delta, 100.0) * acos(Vector3.FORWARD.dot(target_dir)) * sign(Vector3.RIGHT.dot(target_dir))
 		var rot_axis = -basis.y
 		if (rot_axis.length() > 0.0):
 			rotate(rot_axis, rot_angle)
 			head_node.quaternion = Quaternion(Vector3.UP, rot_angle) * head_node.quaternion
 			orthonormalize()
 			head_node.orthonormalize()
+		force += -120.0 * basis.z
 			
 	velocity += force * delta
 	move_and_collide(velocity * delta)
