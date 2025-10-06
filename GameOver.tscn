@@ -1,0 +1,54 @@
+[gd_scene load_steps=3 format=3 uid="uid://cot5y3xelb48u"]
+
+[ext_resource type="Script" uid="uid://cxbapfd046wm4" path="res://gameoverhud.gd" id="1_a1htc"]
+[ext_resource type="Texture2D" uid="uid://bn0rjk51nud0f" path="res://Assets/Start_bkg.png" id="2_eksk4"]
+
+[node name="GameOver" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HUD" type="CanvasLayer" parent="."]
+script = ExtResource("1_a1htc")
+
+[node name="StartBkg" type="Sprite2D" parent="HUD"]
+position = Vector2(577, 322)
+texture = ExtResource("2_eksk4")
+
+[node name="Message" type="Label" parent="HUD"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -499.0
+offset_top = 116.0
+offset_right = 501.0
+offset_bottom = 211.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 33
+text = "Your Score: 
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="StartButton" type="Button" parent="HUD"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_top = -100.0
+offset_right = 100.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Restart"
+
+[connection signal="ready" from="HUD/Message" to="HUD" method="_on_message_ready"]
+[connection signal="pressed" from="HUD/StartButton" to="HUD" method="_on_start_button_pressed"]

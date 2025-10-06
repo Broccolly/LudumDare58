@@ -53,7 +53,7 @@ func resume_game():
 	
 func game_over():
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	get_tree().change_scene_to_file("res://UItest.tscn")
+	get_tree().change_scene_to_file("res://GameOver.tscn")
 	
 #func on_delivery(body : Node3D):
 	#if (body is Fly):

@@ -45,6 +45,7 @@ func _on_message_timer_timeout() -> void:
 func _on_score_timer_timeout() -> void:
 	hunger -= 50
 	if hunger <= 0:
+		global.score = score
 		end_game.emit()
 	$HungerBar.value = hunger
 	update_score(score)
