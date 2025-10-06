@@ -1,6 +1,8 @@
 class_name Fly
 extends CharacterBody3D
 
+enum MobType {FLY, LADYBIRD}
+
 signal im_alive
 signal im_dead
 signal delivered
@@ -17,6 +19,9 @@ var vertical_drag : float = 10.0
 var general_drag : float = 2.0
 var delivery_shrink_rate : float = 1.0
 var is_being_damaged : bool = false
+
+@export
+var type : MobType
 
 var is_paused : bool = false
 

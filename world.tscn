@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://cppac1fhj0e10"]
+[gd_scene load_steps=11 format=3 uid="uid://cppac1fhj0e10"]
 
 [ext_resource type="PackedScene" uid="uid://ckavqb25bdaul" path="res://ocean.tscn" id="1_a202f"]
 [ext_resource type="Script" uid="uid://bddka1juh0itp" path="res://world_manager.gd" id="1_tlwt5"]
 [ext_resource type="PackedScene" uid="uid://bj76w7cwuoee5" path="res://mob_spawner.tscn" id="2_036b0"]
 [ext_resource type="PackedScene" uid="uid://oea2uyph2jxn" path="res://character.tscn" id="2_noarx"]
 [ext_resource type="PackedScene" uid="uid://bdsdm66phq31v" path="res://fly.tscn" id="4_aqk2v"]
+[ext_resource type="PackedScene" uid="uid://08mg2icc1hy5" path="res://ladybird.tscn" id="4_pkg7o"]
 [ext_resource type="Script" uid="uid://d3xgmdujcke3m" path="res://hud.gd" id="5_036b0"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_noarx"]
@@ -26,6 +27,9 @@ script = ExtResource("1_tlwt5")
 
 [node name="MobSpawner" parent="." instance=ExtResource("2_036b0")]
 mob_scene = ExtResource("4_aqk2v")
+
+[node name="MobSpawner2" parent="." instance=ExtResource("2_036b0")]
+mob_scene = ExtResource("4_pkg7o")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(-0.018592643, -0.94064236, 0.33888996, -0.03597788, 0.33935845, 0.9399689, -0.9991796, 0.005283965, -0.040151887, 82.85895, 207.0884, 27.561424)

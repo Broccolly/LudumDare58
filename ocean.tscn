@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://ckavqb25bdaul"]
+[gd_scene load_steps=13 format=3 uid="uid://ckavqb25bdaul"]
 
 [ext_resource type="Script" uid="uid://bpbieixyxqc8d" path="res://ocean.gd" id="1_tiovm"]
 [ext_resource type="PackedScene" uid="uid://df67nliqiciwf" path="res://web.tscn" id="2_j38dg"]
 [ext_resource type="Material" uid="uid://b4xswhh08t15v" path="res://Assets/silk_mat.tres" id="3_nb2vx"]
-[ext_resource type="PackedScene" uid="uid://cgx6hw4ervkmp" path="res://delivery_zone.tscn" id="4_bwgqs"]
+[ext_resource type="PackedScene" uid="uid://cgx6hw4ervkmp" path="res://delivery_zone_fly.tscn" id="4_bwgqs"]
+[ext_resource type="PackedScene" uid="uid://dbcxb0cx63bq8" path="res://delivery_zone_ladybird.tscn" id="5_ihpsq"]
 
 [sub_resource type="Gradient" id="Gradient_tiovm"]
 colors = PackedColorArray(0.69, 0.414, 0.1725, 1, 1, 0.75200003, 0.38, 1)
@@ -63,9 +64,12 @@ mesh = SubResource("CylinderMesh_tiovm")
 skeleton = NodePath("../..")
 
 [node name="Web_Part3" type="MeshInstance3D" parent="Web"]
-transform = Transform3D(-0.50000006, -0.86602545, 0, -3.7855173e-08, 2.1855698e-08, -1.0000001, 0.8660253, -0.5000001, -4.3711392e-08, 0, 0, 0)
+transform = Transform3D(-0.50000006, -0.8660253, 0, -3.7855173e-08, 2.1855698e-08, -1.0000001, 0.8660252, -0.5000001, -4.3711392e-08, -0.04893919, 0.017494977, -0.17486863)
 rotation_order = 1
 mesh = SubResource("CylinderMesh_tiovm")
 skeleton = NodePath("../..")
 
 [node name="DeliveryZone" parent="Web" instance=ExtResource("4_bwgqs")]
+
+[node name="DeliveryZone" parent="." instance=ExtResource("5_ihpsq")]
+transform = Transform3D(0.9999779, 0, -0.0066496558, 0, 1, 0, 0.0066496558, 0, 0.9999779, 39.826828, 0, -22.669352)
