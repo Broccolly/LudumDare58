@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://bddka1juh0itp" path="res://world_manager.gd" id="1_tlwt5"]
 [ext_resource type="PackedScene" uid="uid://oea2uyph2jxn" path="res://character.tscn" id="2_noarx"]
 [ext_resource type="PackedScene" uid="uid://bdsdm66phq31v" path="res://fly.tscn" id="4_aqk2v"]
-[ext_resource type="Script" uid="uid://d3xgmdujcke3m" path="res://hud.gd" id="5_036b0"]
+[ext_resource type="Script" path="res://hud.gd" id="5_036b0"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_noarx"]
 
@@ -36,7 +36,7 @@ light_energy = 2.022
 shadow_enabled = true
 
 [node name="Character" parent="." instance=ExtResource("2_noarx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 114.27753, 16.875917, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_noarx")
@@ -62,7 +62,7 @@ spot_angle = 49.66
 spot_angle_attenuation = 1.0717762
 
 [node name="Fly" parent="." instance=ExtResource("4_aqk2v")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 82.85895, 408.5515, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 112.03186, 35.35821, 0)
 
 [node name="Fly2" parent="." instance=ExtResource("4_aqk2v")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -82.56064, 78.89638, 0)

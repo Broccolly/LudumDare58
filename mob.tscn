@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://c1twr2i6iwxt8"]
+
+[ext_resource type="Script" uid="uid://cgp2tdk0ee2pn" path="res://mob_base.gd" id="1_dy6sc"]
+
+[node name="Node3D" type="CharacterBody3D" groups=["mob"]]
+script = ExtResource("1_dy6sc")

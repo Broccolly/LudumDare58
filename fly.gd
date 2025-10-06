@@ -1,6 +1,10 @@
 class_name Fly
 extends CharacterBody3D
 
+signal im_alive
+signal im_dead
+signal delivered
+
 var sdf_func : Callable
 
 var grad_sdf_func : Callable
@@ -13,36 +17,122 @@ var landing_height : float = 5.0
 var vertical_drag : float = 10.0
 var general_drag : float = 2.0
 
+var is_being_damaged : bool = false
+
+@export
+var max_health :float = 5.0
+
+@onready
+var health : float = max_health
+
+var sdf : float
+var grad_sdf : Vector3
+var force : Vector3
+
+enum State {SPAWNING, ALIVE, DEAD, NONE}
+
+var follow_target : Node3D
+var follow_distance : float = 10.0
+var state : State = State.SPAWNING
+var next_state : State = State.NONE
 func _ready():
 	Input.set_use_accumulated_input(false)
 	$fly/AnimationPlayer.play("ArmatureAction")
 
+func deal_damage(delta):
+	health -= delta
+	is_being_damaged = true
+	
 func _physics_process(delta: float) -> void:
-	var sdf : float
-	var grad_sdf : Vector3
-	var force : Vector3
-
+	if (next_state != State.NONE):
+		state = next_state
+		next_state = State.NONE
 	if (sdf_func):
 		sdf = sdf_func.call(position)
-		if (sdf > landing_height):
-			print(sdf)
-			rotate(basis.y, procession_rate * delta)
-			force = -basis.z * flying_speed * min(sdf, 10.0)
 	if (grad_sdf_func):
 		grad_sdf = grad_sdf_func.call(position)
-		if (sdf > 0):
-			force += -sdf * grad_sdf * gravity_rate
-		else:
-			force += -sdf * grad_sdf * ground_rate
+
+	match state:
+		State.SPAWNING:
+			spawn_behaviour(delta)
+		State.ALIVE:
+			alive_behaviour(delta)
+		State.DEAD:
+			dead_behaviour(delta)
+	force = Vector3.ZERO
+	$SilkBall.visible = is_dead()
+
+func add_gravity() -> void:
+	if (sdf > 0):
+		force += -sdf * grad_sdf * gravity_rate
+	else:
+		force += -sdf * grad_sdf * ground_rate
+
+func spawn_behaviour(delta: float):
+	if (sdf > landing_height):
+		pass
+		rotate(basis.y, procession_rate * delta)
+		force += -basis.z * flying_speed * min(sdf, 10.0)
+		orthonormalize()
+	else:
+		start_land()
+		pass
+		
+	add_gravity()
+	add_drag()
+	point_vector_up(Vector3.UP)
+	apply_force(delta)
+
+func alive_behaviour(delta: float):
+	add_gravity()
+	add_drag()
+	point_vector_up(Vector3.UP)
+	apply_force(delta)
+
+func dead_behaviour(delta: float):
+	add_gravity()
+	add_drag()
+	#rotate(basis.y, procession_rate * delta * 5)
+	add_follow()
+	apply_force(delta)
+	#roll_rotation()
 	
+func start_land() -> void:
+	next_state = State.ALIVE
+	im_alive.emit()
+
+func kill(node_to_follow : Node3D = null):
+	next_state = State.DEAD
+	follow_target=node_to_follow
+	im_dead.emit()
+
+func is_dead() -> bool:
+	return (state == State.DEAD || next_state == State.DEAD)
+
+func add_follow() -> void:
+	var k = 50.0
+	if(follow_target):
+		var diff = follow_target.position - position
+		var d = diff.length()
+		var dir = diff.normalized()
+		force += (d-follow_distance) * dir * k
+		
+		#force += 100.0 * diff.normalized()
+
+func add_drag():
 	# up/down drag to stop oscillation
 	force += -vertical_drag* velocity.dot(grad_sdf.normalized()) * grad_sdf.normalized()
 	force += -general_drag * velocity
+
+func point_vector_up(vec_up):
 	if (grad_sdf != Vector3.ZERO):
-		var angle_to_rotate = acos(grad_sdf.normalized().dot(basis.y))
+		var dir = basis * vec_up
+		var angle_to_rotate = acos(grad_sdf.normalized().dot(dir))
 		if (angle_to_rotate > 0.0):
-			rotate(-grad_sdf.cross(basis.y).normalized(), angle_to_rotate)
+			rotate(-grad_sdf.cross(dir).normalized(), angle_to_rotate)
+		orthonormalize()
 		
+func apply_force(delta):
 	velocity += force * delta
-	move_and_collide(velocity * delta)
+	move_and_slide()
 	

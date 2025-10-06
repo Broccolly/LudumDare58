@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://ckavqb25bdaul"]
+[gd_scene load_steps=11 format=3 uid="uid://ckavqb25bdaul"]
 
 [ext_resource type="Script" uid="uid://bpbieixyxqc8d" path="res://ocean.gd" id="1_tiovm"]
 [ext_resource type="PackedScene" uid="uid://df67nliqiciwf" path="res://web.tscn" id="2_j38dg"]
+[ext_resource type="Material" uid="uid://b4xswhh08t15v" path="res://Assets/silk_mat.tres" id="3_nb2vx"]
 
 [sub_resource type="Gradient" id="Gradient_tiovm"]
 colors = PackedColorArray(0.69, 0.414, 0.1725, 1, 1, 0.75200003, 0.38, 1)
@@ -35,6 +36,7 @@ rings = 32
 ring_segments = 24
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_tiovm"]
+material = ExtResource("3_nb2vx")
 top_radius = 2.0
 bottom_radius = 2.0
 height = 160.0

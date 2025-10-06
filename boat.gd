@@ -1,3 +1,4 @@
+class_name CharacterMain
 extends CharacterBody3D
 
 @export_group("Nodes")
@@ -16,6 +17,8 @@ var grad_sdf_func : Callable
 var force = Vector3.ZERO
 
 var move_dir= Vector2.ZERO
+
+var followers : Array[Fly] =[]
 
 func _ready():
 	Input.set_use_accumulated_input(false)
@@ -60,7 +63,7 @@ func _physics_process(delta):
 		var angle_to_rotate = acos(grad_sdf.normalized().dot(basis.y))
 		if (angle_to_rotate > 0.0):
 			rotate(-grad_sdf.cross(basis.y).normalized(), angle_to_rotate)
-		
+	
 
 	
 	# up/down drag to stop oscillation
@@ -81,10 +84,25 @@ func _physics_process(delta):
 		force += -120.0 * basis.z
 			
 	velocity += force * delta
-	move_and_collide(velocity * delta)
-	$spider_forward/AnimationPlayer.speed_scale = velocity.length() * 0.1
+	move_and_slide()
+	# Iterate through all collisions that occurred this frame
+	for index in range(get_slide_collision_count()):
+		var collision = get_slide_collision(index)
 
-func _process(delta):
+		if collision.get_collider() == null:
+			continue
+
+		# If the collider is with a mob
+		if collision.get_collider().is_in_group("mob"):
+			var mob = collision.get_collider() as Fly
+			if (!mob.is_dead()):
+				if (followers.is_empty()):
+					mob.kill(self)
+				else:
+					mob.kill(followers.back())
+				followers.push_back(mob)
+			
+	$spider_forward/AnimationPlayer.speed_scale = velocity.length() * 0.1
 	move_dir = Vector2.ZERO
 
 func add_head_yaw(angle : float):

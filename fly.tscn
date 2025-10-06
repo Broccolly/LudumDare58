@@ -1,18 +1,26 @@
-[gd_scene load_steps=4 format=3 uid="uid://bdsdm66phq31v"]
+[gd_scene load_steps=6 format=3 uid="uid://bdsdm66phq31v"]
 
 [ext_resource type="Script" uid="uid://codfjbvif0c6m" path="res://fly.gd" id="1_mv3iy"]
 [ext_resource type="PackedScene" uid="uid://dhhd62pk27ojt" path="res://Assets/Models/fly.glb" id="2_qarim"]
+[ext_resource type="Material" uid="uid://b4xswhh08t15v" path="res://Assets/silk_mat.tres" id="3_7c42i"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_lis8o"]
+material = ExtResource("3_7c42i")
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_81sfm"]
-radius = 2.3190205
+radius = 2.5
 
-[node name="Fly" type="CharacterBody3D"]
+[node name="Fly" type="CharacterBody3D" groups=["mob"]]
 collision_layer = 2
 script = ExtResource("1_mv3iy")
 
 [node name="fly" parent="." instance=ExtResource("2_qarim")]
-transform = Transform3D(-1.9876325e-07, 0, -1.22, 0, 1.22, 0, 1.22, 0, -1.9876325e-07, 0, 1.165, 1.5)
+transform = Transform3D(-1.9876325e-07, 0, -1.22, 0, 1.22, 0, 1.22, 0, -1.9876325e-07, 0, 0, 0.63330674)
+
+[node name="SilkBall" type="MeshInstance3D" parent="."]
+transform = Transform3D(-7.4699136e-07, 0, -4.585, 0, 4.585, 0, 4.585, 0, -7.4699136e-07, 0, 0, 0)
+mesh = SubResource("SphereMesh_lis8o")
+skeleton = NodePath("../fly")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.101564, 0)
 shape = SubResource("SphereShape3D_81sfm")
