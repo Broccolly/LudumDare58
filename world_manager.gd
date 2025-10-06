@@ -14,14 +14,14 @@ func _ready():
 	$Character.sdf_func = $Ocean.global_sdf
 	$Character.grad_sdf_func = $Ocean.global_grad_sdf
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	$HUD.show_message("Go!")
+	$HUD.show_message("3")
 	$MobSpawner.sdf_func = $Ocean.global_sdf
 	$MobSpawner.grad_sdf_func = $Ocean.global_grad_sdf
 	$Ocean/Web/DeliveryZone.object_delivered.connect($Character.on_delivery)
 	$Ocean/Web/DeliveryZone.object_delivered.connect($HUD._on_delivery)
 	#DeliveryZone0..connect(object_delivered)
 	mob_spawner = $MobSpawner
-	pause_game()
+	#pause_game()
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -33,8 +33,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		if (is_paused):
 			if (is_started):
 				resume_game()
-			else:
-				start_game()
+			#else:
+				#start_game()
 	
 func start_game():
 	start.emit()
@@ -60,3 +60,7 @@ func game_over():
 		#print ("Delivered ", body)
 		#if (body.is_dead() and not body.is_delivered()):
 			#body.deliver()
+
+
+func _on_hud_start_game() -> void:
+	start_game()
