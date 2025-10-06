@@ -109,7 +109,6 @@ wait_time = 2.0
 one_shot = true
 
 [node name="ScoreTimer" type="Timer" parent="HUD"]
-autostart = true
 
 [node name="HungerBar" type="ProgressBar" parent="HUD"]
 custom_minimum_size = Vector2(200, 0)
@@ -121,6 +120,9 @@ grow_horizontal = 2
 max_value = 5000.0
 step = 1.0
 
+[node name="StartTimer" type="Timer" parent="HUD"]
+autostart = true
+
 [connection signal="pause" from="." to="MobSpawner" method="_on_world_pause"]
 [connection signal="pause" from="." to="Character" method="_on_world_pause"]
 [connection signal="pause" from="." to="HUD" method="_on_world_pause"]
@@ -129,6 +131,8 @@ step = 1.0
 [connection signal="resume" from="." to="HUD" method="_on_world_resume"]
 [connection signal="start" from="." to="MobSpawner" method="_on_world_start"]
 [connection signal="end_game" from="HUD" to="." method="game_over"]
+[connection signal="start_game" from="HUD" to="." method="_on_hud_start_game"]
 [connection signal="timeout" from="HUD/MessageTimer" to="HUD" method="_on_message_timer_timeout"]
 [connection signal="timeout" from="HUD/ScoreTimer" to="HUD" method="_on_score_timer_timeout"]
 [connection signal="value_changed" from="HUD/HungerBar" to="HUD" method="_on_hunger_bar_value_changed"]
+[connection signal="timeout" from="HUD/StartTimer" to="HUD" method="_on_start_timer_timeout"]
