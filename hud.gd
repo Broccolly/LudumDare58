@@ -1,3 +1,4 @@
+class_name HUD
 extends CanvasLayer
 
 # Notifies `Main` node that the button has been pressed
@@ -36,7 +37,7 @@ func show_game_over():
 func update_score(_score):
 	$ScoreLabel.text = "score: " + str(_score)
 
-func _on_delivery(zone : DeliveryZone, node : Node2D):
+func _on_delivery(zone : DeliveryZone, node : Node3D):
 	score += 1
 	update_score(score)
 

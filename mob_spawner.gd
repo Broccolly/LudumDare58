@@ -11,7 +11,7 @@ var sdf_func : Callable
 var grad_sdf_func : Callable
 
 func _on_timer_timeout() -> void:
-	spawn_mob(10)
+	spawn_mob(2)
 
 func spawn_mob(count : int):
 	for i in range(count):
@@ -31,11 +31,11 @@ func spawn_mob(count : int):
 
 
 func _on_world_pause() -> void:
-	$Timer.paused=true
+	$Timer.stop()
 	pause_fly.emit()
 
 func _on_world_resume() -> void:
-	$Timer.paused=false
+	$Timer.start()
 	resume_fly.emit()
 
 

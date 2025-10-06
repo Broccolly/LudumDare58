@@ -18,6 +18,7 @@ func _ready():
 	$MobSpawner.sdf_func = $Ocean.global_sdf
 	$MobSpawner.grad_sdf_func = $Ocean.global_grad_sdf
 	$Ocean/Web/DeliveryZone.object_delivered.connect($Character.on_delivery)
+	$Ocean/Web/DeliveryZone.object_delivered.connect($HUD._on_delivery)
 	#DeliveryZone0..connect(object_delivered)
 	mob_spawner = $MobSpawner
 	pause_game()

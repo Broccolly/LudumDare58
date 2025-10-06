@@ -117,6 +117,8 @@ func delivered_behaviour(delta : float):
 	add_drag()
 	scale *= 0.9
 	radius *= 0.9
+	if (scale.x/start_scale.x < 0.1):
+		queue_free()
 	
 func roll_rotation(delta):
 	var up : Vector3 = grad_sdf.normalized()
