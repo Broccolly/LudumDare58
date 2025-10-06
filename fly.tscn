@@ -12,6 +12,7 @@ radius = 2.5
 
 [node name="Fly" type="CharacterBody3D" groups=["mob"]]
 collision_layer = 2
+collision_mask = 5
 script = ExtResource("1_mv3iy")
 
 [node name="fly" parent="." instance=ExtResource("2_qarim")]

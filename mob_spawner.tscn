@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://bj76w7cwuoee5"]
+
+[ext_resource type="Script" uid="uid://brdcp8y5jed0f" path="res://mob_spawner.gd" id="1_fir6i"]
+
+[node name="MobSpawner" type="Node3D"]
+script = ExtResource("1_fir6i")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

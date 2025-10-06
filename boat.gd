@@ -20,26 +20,24 @@ var move_dir= Vector2.ZERO
 
 var followers : Array[Fly] =[]
 
+var is_paused : bool = true
+
 func _ready():
 	Input.set_use_accumulated_input(false)
 	$spider_forward/AnimationPlayer.play("Animation")
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_cancel"):
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-		return
-	if event.is_action_pressed("click"):
-		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-		return
 	if event is InputEventMouseMotion:
-		aim(event)
+		if (not is_paused):
+			aim(event)
 		return
 
 func _physics_process(delta):
 	var sdf : float
 	var grad_sdf : Vector3
-	
+	if (is_paused):
+		return
 	if (Input.is_action_pressed("forwards", true)):
 		move_dir.y+=1
 	if (Input.is_action_pressed("backwards", true)):
@@ -133,3 +131,25 @@ func aim(event : InputEventMouseMotion) -> void:
 		motion.y=min_pitch-current_pitch
 	add_head_yaw(motion.x)
 	add_head_pitch(motion.y)
+
+func on_delivery(zone : DeliveryZone, node : Node3D):
+	while (followers.has(node)):
+		followers.erase(node)
+	update_follower_chain()
+
+func update_follower_chain():
+	for follower_idx in range(followers.size()):
+		if (follower_idx==0):
+			followers[follower_idx].set_follow_node(self)
+		else:
+			followers[follower_idx].set_follow_node(followers[follower_idx - 1])
+
+
+func _on_world_pause() -> void:
+	is_paused=true
+	$spider_forward/AnimationPlayer.pause()
+
+
+func _on_world_resume() -> void:
+	is_paused=false
+	$spider_forward/AnimationPlayer.play()

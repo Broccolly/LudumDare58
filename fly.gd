@@ -6,7 +6,6 @@ signal im_dead
 signal delivered
 
 var sdf_func : Callable
-
 var grad_sdf_func : Callable
 
 var procession_rate : float = 0.5
@@ -16,8 +15,13 @@ var flying_speed : float = 20.0
 var landing_height : float = 5.0
 var vertical_drag : float = 10.0
 var general_drag : float = 2.0
-
+var delivery_shrink_rate : float = 1.0
 var is_being_damaged : bool = false
+
+var is_paused : bool = false
+
+@onready
+var radius = $CollisionShape3D.shape.radius
 
 @export
 var max_health :float = 5.0
@@ -25,11 +29,14 @@ var max_health :float = 5.0
 @onready
 var health : float = max_health
 
+@onready
+var start_scale : Vector3 = scale
+
 var sdf : float
 var grad_sdf : Vector3
 var force : Vector3
 
-enum State {SPAWNING, ALIVE, DEAD, NONE}
+enum State {SPAWNING, ALIVE, DEAD, DELIVERED, NONE}
 
 var follow_target : Node3D
 var follow_distance : float = 10.0
@@ -42,13 +49,19 @@ func _ready():
 func deal_damage(delta):
 	health -= delta
 	is_being_damaged = true
-	
+
+func deliver():
+	delivered.emit()
+	next_state=State.DELIVERED
+
 func _physics_process(delta: float) -> void:
 	if (next_state != State.NONE):
 		state = next_state
 		next_state = State.NONE
+	if (is_paused):
+		return
 	if (sdf_func):
-		sdf = sdf_func.call(position)
+		sdf = sdf_func.call(position) - radius
 	if (grad_sdf_func):
 		grad_sdf = grad_sdf_func.call(position)
 
@@ -59,6 +72,8 @@ func _physics_process(delta: float) -> void:
 			alive_behaviour(delta)
 		State.DEAD:
 			dead_behaviour(delta)
+		State.DELIVERED:
+			delivered_behaviour(delta)
 	force = Vector3.ZERO
 	$SilkBall.visible = is_dead()
 
@@ -95,7 +110,19 @@ func dead_behaviour(delta: float):
 	#rotate(basis.y, procession_rate * delta * 5)
 	add_follow()
 	apply_force(delta)
-	#roll_rotation()
+	roll_rotation(delta)
+	
+func delivered_behaviour(delta : float):
+	add_gravity()
+	add_drag()
+	scale *= 0.9
+	radius *= 0.9
+	
+func roll_rotation(delta):
+	var up : Vector3 = grad_sdf.normalized()
+	var angle : float = (velocity - velocity.dot(grad_sdf.normalized())*grad_sdf.normalized()).length() / radius
+	var axis = up.cross(velocity).normalized()
+	rotate(axis, angle * delta)
 	
 func start_land() -> void:
 	next_state = State.ALIVE
@@ -106,8 +133,14 @@ func kill(node_to_follow : Node3D = null):
 	follow_target=node_to_follow
 	im_dead.emit()
 
+func set_follow_node(node_to_follow : Node3D):
+	follow_target = node_to_follow
+
 func is_dead() -> bool:
-	return (state == State.DEAD || next_state == State.DEAD)
+	return (state == State.DEAD || state==State.DELIVERED || next_state == State.DEAD)
+
+func is_delivered():
+	return (state == State.DELIVERED || next_state==State.DELIVERED)
 
 func add_follow() -> void:
 	var k = 50.0
@@ -136,3 +169,8 @@ func apply_force(delta):
 	velocity += force * delta
 	move_and_slide()
 	
+func on_pause_fly():
+	is_paused=true
+	
+func on_resume_fly():
+	is_paused=false

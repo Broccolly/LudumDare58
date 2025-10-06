@@ -6,7 +6,15 @@ signal start_game
 signal end_game
 
 var score = 0
-var hunger = 5000
+
+@onready
+var hunger = hunger_max
+
+@export
+var hunger_max = 5000
+
+func _ready():
+	$HungerBar.max_value=hunger_max
 
 func show_message(text):
 	$Message.text = text
@@ -28,7 +36,9 @@ func show_game_over():
 func update_score(_score):
 	$ScoreLabel.text = "score: " + str(_score)
 
-
+func _on_delivery(zone : DeliveryZone, node : Node2D):
+	score += 1
+	update_score(score)
 
 func _on_message_timer_timeout() -> void:
 	$Message.hide()
@@ -39,6 +49,15 @@ func _on_score_timer_timeout() -> void:
 	if hunger <= 0:
 		end_game.emit()
 	$HungerBar.value = hunger
-	score += 1
 	update_score(score)
 	
+
+
+func _on_world_pause() -> void:
+	$MessageTimer.paused = true
+	$ScoreTimer.paused = true
+
+
+func _on_world_resume() -> void:
+	$MessageTimer.paused = false
+	$ScoreTimer.paused = false
