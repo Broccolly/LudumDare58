@@ -10,6 +10,10 @@ signal resume_fly
 var sdf_func : Callable
 var grad_sdf_func : Callable
 
+
+func _ready():
+	$Timer.timeout.connect(_on_timer_timeout)
+
 func _on_timer_timeout() -> void:
 	spawn_mob(2)
 

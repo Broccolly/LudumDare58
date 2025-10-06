@@ -1,7 +1,7 @@
 class_name Fly
 extends CharacterBody3D
 
-enum MobType {FLY, LADYBIRD}
+enum MobType {FLY, LADYBIRD, LADYBLUE, LADYGREEN, LADYYELLOW}
 
 signal im_alive
 signal im_dead
@@ -49,7 +49,8 @@ var state : State = State.SPAWNING
 var next_state : State = State.NONE
 func _ready():
 	Input.set_use_accumulated_input(false)
-	$fly/AnimationPlayer.play("ArmatureAction")
+	if (type == MobType.FLY):
+		$fly/AnimationPlayer.play("ArmatureAction")
 
 func deal_damage(delta):
 	health -= delta
@@ -122,7 +123,7 @@ func delivered_behaviour(delta : float):
 	add_drag()
 	scale *= 0.9
 	radius *= 0.9
-	if (scale.x/start_scale.x < 0.1):
+	if (scale.x/start_scale.x < 0.001):
 		queue_free()
 	
 func roll_rotation(delta):
@@ -135,9 +136,8 @@ func start_land() -> void:
 	next_state = State.ALIVE
 	im_alive.emit()
 
-func kill(node_to_follow : Node3D = null):
+func kill():
 	next_state = State.DEAD
-	follow_target=node_to_follow
 	im_dead.emit()
 
 func set_follow_node(node_to_follow : Node3D):

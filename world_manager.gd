@@ -1,8 +1,6 @@
 class_name World
 extends Node3D
 
-var mob_spawner : MobSpawner
-
 signal pause
 signal resume
 signal start
@@ -15,14 +13,20 @@ func _ready():
 	$Character.grad_sdf_func = $Ocean.global_grad_sdf
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	$HUD.show_message("3")
-	$MobSpawner.sdf_func = $Ocean.global_sdf
-	$MobSpawner.grad_sdf_func = $Ocean.global_grad_sdf
-	$MobSpawner2.sdf_func = $Ocean.global_sdf
-	$MobSpawner2.grad_sdf_func = $Ocean.global_grad_sdf
-	$Ocean/Web/DeliveryZone.object_delivered.connect($Character.on_delivery)
-	$Ocean/Web/DeliveryZone.object_delivered.connect($HUD._on_delivery)
+	
+	for node in $Ocean/Web.get_children(true):
+		if (node is DeliveryZone):			
+			node.object_delivered.connect($Character.on_delivery)
+			node.object_delivered.connect($HUD._on_delivery)
+	for node in get_children(true):
+		if (node is MobSpawner):
+			node.sdf_func = $Ocean.global_sdf
+			node.grad_sdf_func = $Ocean.global_grad_sdf
+			pause.connect(node._on_world_pause)
+			resume.connect(node._on_world_resume)
+			start.connect(node._on_world_start)
+
 	#DeliveryZone0..connect(object_delivered)
-	mob_spawner = $MobSpawner
 	#pause_game()
 
 

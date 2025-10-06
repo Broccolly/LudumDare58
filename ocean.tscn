@@ -1,10 +1,13 @@
-[gd_scene load_steps=13 format=3 uid="uid://ckavqb25bdaul"]
+[gd_scene load_steps=16 format=3 uid="uid://ckavqb25bdaul"]
 
 [ext_resource type="Script" uid="uid://bpbieixyxqc8d" path="res://ocean.gd" id="1_tiovm"]
 [ext_resource type="PackedScene" uid="uid://df67nliqiciwf" path="res://web.tscn" id="2_j38dg"]
 [ext_resource type="Material" uid="uid://b4xswhh08t15v" path="res://Assets/silk_mat.tres" id="3_nb2vx"]
 [ext_resource type="PackedScene" uid="uid://cgx6hw4ervkmp" path="res://delivery_zone_fly.tscn" id="4_bwgqs"]
 [ext_resource type="PackedScene" uid="uid://dbcxb0cx63bq8" path="res://delivery_zone_ladybird.tscn" id="5_ihpsq"]
+[ext_resource type="PackedScene" uid="uid://gvorjg654jrg" path="res://delivery_zone_ladyyellow.tscn" id="6_06qne"]
+[ext_resource type="PackedScene" uid="uid://cfububejwjl0h" path="res://delivery_zone_ladygreen.tscn" id="7_nrb0v"]
+[ext_resource type="PackedScene" uid="uid://b0uuqrxpukom5" path="res://delivery_zone_ladyblue.tscn" id="8_v5bp3"]
 
 [sub_resource type="Gradient" id="Gradient_tiovm"]
 colors = PackedColorArray(0.69, 0.414, 0.1725, 1, 1, 0.75200003, 0.38, 1)
@@ -71,5 +74,14 @@ skeleton = NodePath("../..")
 
 [node name="DeliveryZone" parent="Web" instance=ExtResource("4_bwgqs")]
 
-[node name="DeliveryZone" parent="." instance=ExtResource("5_ihpsq")]
+[node name="DeliveryZone2" parent="Web" instance=ExtResource("5_ihpsq")]
 transform = Transform3D(0.9999779, 0, -0.0066496558, 0, 1, 0, 0.0066496558, 0, 0.9999779, 39.826828, 0, -22.669352)
+
+[node name="DeliveryZone3" parent="Web" instance=ExtResource("6_06qne")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3164211, 0, 47.58353)
+
+[node name="DeliveryZone4" parent="Web" instance=ExtResource("7_nrb0v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42.07777, 0, 24.444416)
+
+[node name="DeliveryZone5" parent="Web" instance=ExtResource("8_v5bp3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.26734653, 0, -48.335728)

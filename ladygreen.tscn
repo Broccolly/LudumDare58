@@ -1,0 +1,40 @@
+[gd_scene load_steps=9 format=3 uid="uid://ts0ps6eaf64l"]
+
+[ext_resource type="Script" uid="uid://codfjbvif0c6m" path="res://fly.gd" id="1_mrkan"]
+[ext_resource type="PackedScene" uid="uid://hkylrxnlwmg1" path="res://Assets/Models/Green_Ladybird.glb" id="2_mrkan"]
+
+[sub_resource type="Gradient" id="Gradient_mrkan"]
+colors = PackedColorArray(0.613385, 0.7920261, 0.38234946, 1, 0.22200002, 0.37, 0, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_p7fie"]
+noise_type = 3
+frequency = 0.1424
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_38j1l"]
+noise = SubResource("FastNoiseLite_p7fie")
+color_ramp = SubResource("Gradient_mrkan")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_okboi"]
+albedo_texture = SubResource("NoiseTexture2D_38j1l")
+
+[sub_resource type="SphereMesh" id="SphereMesh_kt48i"]
+material = SubResource("StandardMaterial3D_okboi")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_1oxu2"]
+radius = 1.5
+
+[node name="Fly" type="CharacterBody3D" groups=["mob"]]
+collision_layer = 2
+collision_mask = 5
+script = ExtResource("1_mrkan")
+type = 3
+
+[node name="SilkBall" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.073017e-07, 0, -2.5, 0, 2.5, 0, 2.5, 0, -4.073017e-07, 0, 0, 0)
+mesh = SubResource("SphereMesh_kt48i")
+skeleton = NodePath("")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_1oxu2")
+
+[node name="Green_Ladybird" parent="." instance=ExtResource("2_mrkan")]

@@ -5,10 +5,30 @@ extends CharacterBody3D
 @export var ocean_node : Node3D
 @export var head_node : Node3D
 
+enum Stat {SPEED, DECAY, STRENGTH, LEVEL}
+signal level_up(character : CharacterMain)
+
 @export_group("Settings")
 @export var max_pitch : float = 89
 @export var min_pitch : float = -15
 @export_range(1,100,1) var mouse_sensitivity: int = 50
+
+var speed_level : int=1
+var decay_level : int=1
+var strength_level : int=1
+var mult_level : int=1
+
+var speed_array : Array[int] = [64, 80, 100, 125, 156]
+var decay_array : Array[float] = [1, 0.9, 0.8, 0.7, 0.5]
+var strength_array : Array[int] = [2, 4, 7, 11, 16]
+var mult_array : Array[int] = [20, 25, 33, 50, 80]
+
+var speed_collected : int = 0
+var decay_collected : int = 0
+var strength_collected : int = 0
+var mult_collected : int = 0
+
+var get_stat
 
 var sdf_func : Callable
 
@@ -79,7 +99,7 @@ func _physics_process(delta):
 			head_node.quaternion = Quaternion(Vector3.UP, rot_angle) * head_node.quaternion
 			orthonormalize()
 			head_node.orthonormalize()
-		force += -120.0 * basis.z
+		force += -speed_array[speed_level] * basis.z
 			
 	velocity += force * delta
 	move_and_slide()
@@ -95,10 +115,11 @@ func _physics_process(delta):
 			var mob = collision.get_collider() as Fly
 			if (!mob.is_dead()):
 				if (followers.is_empty()):
-					mob.kill(self)
+					mob.kill()
 				else:
-					mob.kill(followers.back())
+					mob.kill()
 				followers.push_back(mob)
+				update_follower_chain()
 			
 	$spider_forward/AnimationPlayer.speed_scale = velocity.length() * 0.1
 	move_dir = Vector2.ZERO
@@ -132,9 +153,19 @@ func aim(event : InputEventMouseMotion) -> void:
 	add_head_yaw(motion.x)
 	add_head_pitch(motion.y)
 
-func on_delivery(zone : DeliveryZone, node : Node3D):
+func on_delivery(_zone : DeliveryZone, node : Node3D):
 	while (followers.has(node)):
 		followers.erase(node)
+	
+	match node.type:
+		Fly.MobType.LADYBIRD:
+			if (speed_level < 5):
+				speed_collected += 1
+				if (speed_collected >= speed_level):
+					speed_level+=1
+					speed_collected=0
+				level_up.emit(self)
+	
 	update_follower_chain()
 
 func update_follower_chain():

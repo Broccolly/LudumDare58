@@ -9,5 +9,5 @@ var type : Fly.MobType
 func _on_body_entered(body: Node3D) -> void:
 	print(body)
 	if body is Fly and body.type == type:
-		body.deliver()
 		object_delivered.emit(self, body)
+		body.deliver()

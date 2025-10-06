@@ -7,5 +7,3 @@ script = ExtResource("1_fir6i")
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 5.0
-
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
