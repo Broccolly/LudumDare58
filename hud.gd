@@ -6,6 +6,14 @@ signal start_game
 
 signal end_game
 
+signal speed_increase
+
+signal capacity_increase
+
+signal hunger_rate_decrease
+
+signal score_rate_increase
+
 var score = 0
 
 var start_time = 3
@@ -15,6 +23,8 @@ var hunger = hunger_max
 
 @export
 var hunger_max = 5000
+
+var hunger_rate = 50
 
 func _ready():
 	$HungerBar.max_value=hunger_max
@@ -43,8 +53,9 @@ func _on_message_timer_timeout() -> void:
 
 
 func _on_score_timer_timeout() -> void:
-	hunger -= 50
+	hunger -= hunger_rate
 	if hunger <= 0:
+		global.score = score
 		end_game.emit()
 	$HungerBar.value = hunger
 	update_score(score)
@@ -71,3 +82,27 @@ func _on_start_timer_timeout() -> void:
 		$ScoreTimer.start()
 		start_game.emit()
 		show_message("GO!")
+		
+func add_generic(_bar,_remaining, _signal):
+	_bar.value += 1
+	if _bar.value == _bar.max_value:
+		_bar.value = 0
+		_bar.max_value += 1
+		_signal.emit()
+	_remaining.text = str(_bar.value) + "/" + str(_bar.max_value)
+	
+func add_speed():
+	add_generic($SpeedProgress,$SpeedRemaining,speed_increase)
+	
+func add_capacity():
+	add_generic($CapacityProgress,$CapacityRemaining,capacity_increase)
+	
+func add_HungerR():
+	add_generic($HungerRProgress,$HungerRRemaining, hunger_rate_decrease)
+	
+func add_ScoreM():
+	add_generic($ScoreMProgress,$ScoreMRemaining, score_rate_increase)
+
+
+func _on_hunger_rate_decrease() -> void:
+	pass # Replace with function body.

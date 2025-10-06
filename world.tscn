@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cppac1fhj0e10"]
+[gd_scene load_steps=11 format=3 uid="uid://cppac1fhj0e10"]
 
 [ext_resource type="PackedScene" uid="uid://ckavqb25bdaul" path="res://ocean.tscn" id="1_a202f"]
 [ext_resource type="Script" uid="uid://bddka1juh0itp" path="res://world_manager.gd" id="1_tlwt5"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://clbydgkigtwub" path="res://ladyblue.tscn" id="5_wse8f"]
 [ext_resource type="PackedScene" uid="uid://ts0ps6eaf64l" path="res://ladygreen.tscn" id="6_ic0uy"]
 [ext_resource type="PackedScene" uid="uid://bofycxix2kwyp" path="res://ladyyellow.tscn" id="7_k3n1d"]
+[ext_resource type="Script" uid="uid://duhtyhuym2dae" path="res://global.gd" id="7_pkg7o"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_noarx"]
 
@@ -135,6 +136,14 @@ step = 1.0
 [node name="StartTimer" type="Timer" parent="HUD"]
 autostart = true
 
+[node name="Global" type="Control" parent="HUD"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("7_pkg7o")
+
+[connection signal="pause" from="." to="MobSpawner" method="_on_world_pause"]
 [connection signal="pause" from="." to="Character" method="_on_world_pause"]
 [connection signal="pause" from="." to="HUD" method="_on_world_pause"]
 [connection signal="resume" from="." to="Character" method="_on_world_resume"]
